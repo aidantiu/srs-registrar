@@ -23,9 +23,9 @@ COPY package.json pnpm-lock.yaml ./
 # Copy source
 COPY . .
 
-EXPOSE 5173
+EXPOSE 3000
 
-CMD ["pnpm", "dev", "--host", "0.0.0.0", "--port", "5173"]
+CMD ["pnpm", "dev"]
 
 # ----- build stage -----
 FROM node:20-alpine AS build
@@ -34,20 +34,28 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
 
-# Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json pnpm-lock.yaml ./
 
-# Copy source and build
-COPY . .
+COPY tsconfig.json ./
+COPY src ./src
+
 RUN pnpm build
 
 # ----- runtime stage (production) -----
-FROM nginx:stable-alpine AS runtime
+FROM node:20-alpine AS runtime
 
 WORKDIR /app
 
-# Copy built assets to nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+ENV NODE_ENV=production
 
-EXPOSE 80
+# Only production deps
+RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod
+
+COPY --from=build /app/dist ./dist
+
+EXPOSE 3000
+
+CMD ["node", "dist/index.js"]
