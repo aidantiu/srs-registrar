@@ -1,0 +1,14 @@
+services:
+  client:
+    container_name: srs-registrar-client
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: srs-registrar-client
