@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { type Express } from 'express';
 
-const app = express();
+const app: Express = express();
 
 const port = process.env.PORT || 3000;
 
@@ -18,5 +18,4 @@ app.get('/', (_req, res) => {
   res.status(200).send('lol');
 });
 
-
-module.exports = app;
+export default app;
