@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: development
+    env_file:
+      - .env.development
     ports:
       - "5173:5173"
     environment:

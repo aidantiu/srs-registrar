@@ -8,6 +8,8 @@ services:
     environment:
       - PORT=3000
       - NODE_ENV=production
+    env_file:
+      - .env.prod
     ports:
       - "3000:3000"
     restart: unless-stopped
