@@ -24,6 +24,14 @@ export default defineConfig({
 	server: {
 		host: true,
 		strictPort: true,
+		proxy: {
+			'/api': {
+				// Auto-detect: Use host.docker.internal in Docker, localhost otherwise
+				target: process.env.VITE_API_URL || 
+				        (process.env.DOCKER_ENV === 'true' ? 'http://host.docker.internal:3000' : 'http://localhost:3000'),
+				changeOrigin: true,
+			},
+		},
 	},
 	test: {
 		environment: "jsdom",

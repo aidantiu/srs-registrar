@@ -40,7 +40,11 @@ COPY package.json pnpm-lock.yaml ./
 COPY tsconfig.json ./
 COPY src ./src
 
-RUN pnpm build
+# Build and verify output
+RUN pnpm build && \
+    echo "Build completed. Checking dist folder..." && \
+    ls -la && \
+    if [ ! -d "dist" ]; then echo "ERROR: dist folder not created!"; exit 1; fi
 
 # ----- runtime stage (production) -----
 FROM node:20-alpine AS runtime
@@ -52,7 +56,7 @@ ENV NODE_ENV=production
 # Only production deps
 RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --production
 
 COPY --from=build /app/dist ./dist
 
