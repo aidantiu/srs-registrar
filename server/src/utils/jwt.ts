@@ -1,8 +1,9 @@
-import jwt, { type SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import type { StringValue } from 'ms';
 import { UserRole } from '../models/types.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default-secret-key';
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || '7d') as StringValue;
 
 export interface JWTPayload {
   id: string;
@@ -14,10 +15,7 @@ export interface JWTPayload {
  * Generate JWT token
  */
 export const generateToken = (payload: JWTPayload): string => {
-  const options: SignOptions = {
-    expiresIn: JWT_EXPIRES_IN as string,
-  };
-  return jwt.sign(payload, JWT_SECRET, options);
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 };
 
 /**

@@ -26,7 +26,9 @@ export default defineConfig({
 		strictPort: true,
 		proxy: {
 			'/api': {
-				target: 'http://localhost:3000',
+				// Auto-detect: Use host.docker.internal in Docker, localhost otherwise
+				target: process.env.VITE_API_URL || 
+				        (process.env.DOCKER_ENV === 'true' ? 'http://host.docker.internal:3000' : 'http://localhost:3000'),
 				changeOrigin: true,
 			},
 		},
