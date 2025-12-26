@@ -2,6 +2,8 @@
  * Authentication utilities for client-side
  */
 
+import { getApiUrl } from './api';
+
 export type UserRole = 'admin' | 'teacher';
 
 export interface User {
@@ -72,7 +74,7 @@ export const verifyAuth = async (): Promise<boolean> => {
   }
 
   try {
-    const response = await fetch('/api/auth/verify', {
+    const response = await fetch(getApiUrl('/api/auth/verify'), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -102,7 +104,7 @@ export const login = async (
   role: UserRole
 ): Promise<AuthResponse> => {
   try {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch(getApiUrl('/api/auth/login'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +136,7 @@ export const logout = async (): Promise<void> => {
   
   if (token) {
     try {
-      await fetch('/api/auth/logout', {
+      await fetch(getApiUrl('/api/auth/logout'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

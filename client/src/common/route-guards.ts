@@ -1,4 +1,5 @@
 import { redirect } from '@tanstack/react-router';
+import { getApiUrl } from './api';
 
 /**
  * Verify if user is authenticated by checking token with backend
@@ -11,7 +12,7 @@ export const verifyAuth = async (): Promise<boolean> => {
   }
 
   try {
-    const response = await fetch('/api/auth/verify', {
+    const response = await fetch(getApiUrl('/api/auth/verify'), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
