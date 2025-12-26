@@ -9,7 +9,9 @@
 	"scripts": {
 		"commitlint": "commitlint --edit",
 		"commitizen": "exec < /dev/tty && git-cz --hook || true",
-		"prepare": "husky"
+		"prepare": "husky",
+		"db:init:prod": "NODE_ENV=production tsx src/seeders/init-prod.ts",
+		"db:seed:prod": "NODE_ENV=production tsx src/seeders/seed-admins.ts"
 	},
 	"config": {
 		"commitizen": {
