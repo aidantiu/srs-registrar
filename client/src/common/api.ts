@@ -14,7 +14,8 @@ export const getApiBaseUrl = (): string => {
   }
   
   // In production, use the full backend URL
-  return import.meta.env.VITE_API_URL || '';
+  // Hardcoded fallback ensures API calls work even if env var isn't loaded
+  return import.meta.env.VITE_API_URL || 'https://srs-registrar-be.onrender.com';
 };
 
 /**
