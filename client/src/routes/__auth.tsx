@@ -1,4 +1,5 @@
 import { createFileRoute, redirect, Outlet } from '@tanstack/react-router';
+import { getApiUrl } from '../common/api';
 
 // Verify authentication
 const verifyAuth = async (): Promise<boolean> => {
@@ -9,7 +10,7 @@ const verifyAuth = async (): Promise<boolean> => {
   }
 
   try {
-    const response = await fetch('/api/auth/verify', {
+    const response = await fetch(getApiUrl('/api/auth/verify'), {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
