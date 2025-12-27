@@ -20,6 +20,9 @@ services:
     depends_on:
       db-init:
         condition: service_completed_successfully
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   db-init:
     image: srs-registrar-server-dev
@@ -37,6 +40,9 @@ services:
       - /app/node_modules
     command: pnpm exec tsx src/seeders/init-database.ts
     restart: "no"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
 networks:
   default:
