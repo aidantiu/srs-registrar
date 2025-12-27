@@ -40,24 +40,43 @@ prod-build: ## Build and start both in production mode
 
 up: dev ## Alias for dev
 
+dev-down: ## Stop development containers only
+	@cd client && docker compose -f docker-compose.dev.yml down
+	@cd server && docker compose -f docker-compose.dev.yml down
+	@echo "✓ Development containers stopped"
+
+prod-down: ## Stop production containers only
+	@cd client && docker compose down
+	@cd server && docker compose down
+	@echo "✓ Production containers stopped"
+
 down: ## Stop all containers (dev + prod)
 	@cd client && docker compose down && docker compose -f docker-compose.dev.yml down
 	@cd server && docker compose down && docker compose -f docker-compose.dev.yml down
 	@echo "✓ All containers stopped"
 
-logs: ## Show logs from both client and server
+dev-logs: ## Show logs from development containers
+	@echo "=== Client Logs ==="
+	@cd client && docker compose -f docker-compose.dev.yml logs --tail=50
+	@echo ""
+	@echo "=== Server Logs ==="
+	@cd server && docker compose -f docker-compose.dev.yml logs --tail=50
+
+prod-logs: ## Show logs from production containers
 	@echo "=== Client Logs ==="
 	@cd client && docker compose logs --tail=50
 	@echo ""
 	@echo "=== Server Logs ==="
 	@cd server && docker compose logs --tail=50
 
+logs: dev-logs ## Show logs from both client and server (defaults to dev)
+
 logs-follow: ## Follow logs from both client and server
 	@docker compose -f client/docker-compose.dev.yml logs -f & \
 	docker compose -f server/docker-compose.dev.yml logs -f
 
 client-logs: ## Show client logs
-	@cd client && docker compose logs -f
+	@cd client && docker compose logs -f 
 
 server-logs: ## Show server logs
 	@cd server && docker compose logs -f
