@@ -17,6 +17,32 @@ services:
       - ./:/app
       - /app/node_modules
     command: pnpm dev
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  db-init:
+    image: srs-registrar-server-dev
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    env_file:
+      - .env.development
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: pnpm exec tsx src/seeders/init-database.ts
+    restart: "no"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
 networks:
   default:
