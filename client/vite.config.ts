@@ -26,7 +26,9 @@ export default defineConfig({
 		strictPort: true,
 		proxy: {
 			'/api': {
-				target: process.env.VITE_API_URL || 'http://localhost:3000',
+				target: process.env.DOCKER_ENV 
+					? 'http://host.docker.internal:3000'
+					: process.env.VITE_API_URL || 'http://localhost:3000',
 				changeOrigin: true,
 			},
 		},

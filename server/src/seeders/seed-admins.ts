@@ -5,7 +5,7 @@ import { UserRole } from '../models/types.js';
 
 // Load environment variables
 const envFile = process.env.NODE_ENV === 'production' 
-  ? '.env.production' 
+  ? '.env.prod' 
   : '.env.development';
 
 dotenv.config({ path: envFile });
