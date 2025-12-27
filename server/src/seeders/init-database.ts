@@ -28,7 +28,11 @@ async function loadMigrations(): Promise<any[]> {
   }
   
   const files = fs.readdirSync(migrationsDir)
-    .filter(file => file.endsWith('.ts') || file.endsWith('.js'))
+    .filter(file => {
+      // In production, only load .js files (not .d.ts)
+      if (file.endsWith('.d.ts')) return false;
+      return file.endsWith('.ts') || file.endsWith('.js');
+    })
     .sort(); // Ensures migrations run in order (001, 002, etc.)
   
   const migrations = [];
@@ -48,12 +52,15 @@ async function loadSeeders(): Promise<any[]> {
   const seedersDir = __dirname;
   
   const files = fs.readdirSync(seedersDir)
-    .filter(file => 
-      (file.endsWith('.ts') || file.endsWith('.js')) && 
-      file !== 'init-database.ts' && 
-      file !== 'init-prod.ts' && 
-      !file.startsWith('seed-')  // Exclude old seed files
-    )
+    .filter(file => {
+      // Exclude declaration files and special files
+      if (file.endsWith('.d.ts')) return false;
+      if (file === 'init-database.ts' || file === 'init-database.js') return false;
+      if (file === 'init-prod.ts' || file === 'init-prod.js') return false;
+      if (file.startsWith('seed-')) return false;
+      
+      return file.endsWith('.ts') || file.endsWith('.js');
+    })
     .sort(); // Ensures seeders run in order
   
   const seeders = [];

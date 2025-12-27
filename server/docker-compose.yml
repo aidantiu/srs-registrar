@@ -16,6 +16,9 @@ services:
     depends_on:
       db-init:
         condition: service_completed_successfully
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   db-init:
     container_name: srs-registrar-db-init
@@ -29,6 +32,9 @@ services:
       - .env.prod
     command: node dist/seeders/init-database.js
     restart: "no"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
 networks:
   default:
