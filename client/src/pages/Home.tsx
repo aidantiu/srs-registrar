@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import type { FunctionComponent } from "../common/types";
+import { Button } from "@/components/ui/button"
 
 export const Home = (): FunctionComponent => {
 	const { t, i18n } = useTranslation();
@@ -22,6 +23,12 @@ export const Home = (): FunctionComponent => {
 			>
 				translate
 			</button>
+
+			<Button className="mt-4" onClick={onTranslateButtonClick}>
+				Translate (shadcn button)
+			</Button>
+
+
 		</div>
 	);
 };

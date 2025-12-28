@@ -1,6 +1,6 @@
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react-swc";
-import path from "node:path";
+import path, { resolve } from "node:path";
 import { normalizePath } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { defineConfig } from "vitest/config";
@@ -37,5 +37,11 @@ export default defineConfig({
 		environment: "jsdom",
 		setupFiles: ["./vitest.setup.ts"],
 		css: true,
+	},
+
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src"),
+		},
 	},
 });
