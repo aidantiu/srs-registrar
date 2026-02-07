@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-# Open Commitizen when committing without -m/-F
-pnpm exec git-cz --hook
