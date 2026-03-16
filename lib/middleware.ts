@@ -38,17 +38,30 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  let hasActiveProfile = false
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id, is_active')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    hasActiveProfile = Boolean(profile?.is_active)
+  }
+
   const pathname = request.nextUrl.pathname
+  const isAuthenticated = Boolean(user && hasActiveProfile)
 
   // If user is NOT authenticated and tries to access a protected route
-  if (!user && !PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
+  if (!isAuthenticated && !PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
   // If user IS authenticated and tries to access auth routes (login)
-  if (user && AUTH_ROUTES.some((route) => pathname.startsWith(route))) {
+  if (isAuthenticated && AUTH_ROUTES.some((route) => pathname.startsWith(route))) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)

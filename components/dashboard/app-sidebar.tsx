@@ -45,7 +45,7 @@ export function AppSidebar() {
                 <SidebarMenuButton 
                   asChild 
                   tooltip="Dashboard"
-                  className="bg-gradient-to-r from-[#d4e9e2] to-[#f3f4f6] text-[#00754a] font-semibold h-12 text-lg"
+                  className="bg-gradient-to-r from-[#d4e9e2] to-[#f3f4f6] text-[#00754a] font-semibold h-12 text-md"
                 >
                   <Link href="#">
                     <LayoutDashboard className="h-5 w-5" />
@@ -68,7 +68,7 @@ export function AppSidebar() {
                   <SidebarMenuButton 
                     asChild 
                     tooltip={item.title}
-                    className="text-[#6b7280] hover:text-[#171717] hover:bg-[#f3f4f6] h-12 text-lg"
+                    className="text-[#6b7280] hover:text-[#171717] hover:bg-[#f3f4f6] h-12 text-md"
                   >
                     <Link href={item.url}>
                       <item.icon className="h-5 w-5" />
