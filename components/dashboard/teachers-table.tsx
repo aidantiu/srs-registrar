@@ -323,7 +323,7 @@ export function TeachersTable({ teachers, pagination, title }: TeachersTableProp
                     isActive={paginationState.page === pageNum}
                     className={paginationState.page === pageNum
                       ? "bg-[#6b21a8] text-white hover:bg-[#581c87] border-transparent rounded-lg cursor-pointer"
-                      : "text-[#6b7280] hover:bg-transparent cursor-pointer"}
+                      : "text-[#6b7280 hover:bg-transparent cursor-pointer"}
                   >
                     {pageNum}
                   </PaginationLink>
