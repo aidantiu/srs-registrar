@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "db:push": "tsx scripts/db-push.ts",
+    "db:push:dry": "tsx scripts/db-push.ts --dry-run",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:setup": "pnpm db:push && pnpm db:seed"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
